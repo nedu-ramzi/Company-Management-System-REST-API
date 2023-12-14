@@ -20,6 +20,9 @@ export class UserController {
     async getAllUser(req: Request, res: Response) {
         try {
             const user = await User.find();
+            if (!user) {
+                throw new ApplicationError('User not found', 404);
+            }
             return res.status(200).json({
                 "success": true,
                 "message": "All User fetched Successfully",
@@ -28,7 +31,7 @@ export class UserController {
                 }
             });
         } catch (error) {
-            return res.status(400).json({
+            return res.status(error.code || 500).json({
                 "success": false,
                 "error": {
                     "message": error.message,
@@ -43,7 +46,9 @@ export class UserController {
         try {
             const id = req.params.id;
             const user = await User.findById(id);
-
+            if (!user) {
+                throw new ApplicationError('User not found', 404);
+            }
             return res.status(200).json({
                 "success": true,
                 "message": "User fetched Successfully",
@@ -52,7 +57,7 @@ export class UserController {
                 }
             });
         } catch (error) {
-            return res.status(400).json({
+            return res.status(error.code || 500).json({
                 "success": false,
                 "error": {
                     "message": error.message,
@@ -81,7 +86,7 @@ export class UserController {
                 }
             });
         } catch (error) {
-            return res.status(400).json({
+            return res.status(error.code || 500).json({
                 "success": false,
                 "error": {
                     "message": error.message,
@@ -97,7 +102,9 @@ export class UserController {
         try {
             const id = req.params.id;
             const user = await User.findByIdAndDelete(id);
-
+            if (!user) {
+                throw new ApplicationError('User not found', 404);
+            }
             return res.status(200).json({
                 "success": true,
                 "message": "User Updated Successfully",
@@ -107,7 +114,7 @@ export class UserController {
             });
 
         } catch (error) {
-            return res.status(400).json({
+            return res.status(error.code || 400).json({
                 "success": false,
                 "error": {
                     "message": error.message,
@@ -123,7 +130,7 @@ export class UserController {
         try {
             if (req.file) {
                 const id = req.params.id;
-                const { profileImage } = req.body;
+                // const { profileImage } = req.body;
                 const fileName = req.file.filename;
                 const basePath = `${req.protocol}://${req.get('host')}/public/upload/`;
                 const url = `${basePath}${fileName}`;
@@ -136,13 +143,13 @@ export class UserController {
                     "data": {
                         "user": user
                     }
-                })     
-            }else{
-                throw new ApplicationError('Profile Image not found', 400);
+                })
+            } else {
+                throw new ApplicationError('Profile Image not found', 404);
             }
-            
+
         } catch (error) {
-            return res.status(400).json({
+            return res.status(error.code || 500).json({
                 "success": false,
                 "error": {
                     "message": error.message,
@@ -151,5 +158,36 @@ export class UserController {
             });
         }
 
+    }
+
+    async deleteProfilePic(req: Request, res: Response) {
+        try {
+            const id = req.params.id;
+            const user = await User.findById(id);
+            if (!user) {
+                throw new ApplicationError('User not found', 404);
+            }
+            if (user.profileImage) {
+                user.profileImage = undefined;
+                await user.save();
+                return res.status(200).json({
+                    success: true,
+                    message: 'Profile picture deleted successfully',
+                    data: {
+                        "user": user,
+                    },
+                });
+            } else {
+                throw new ApplicationError('User does not have a profile picture', 400);
+            }
+        } catch (error) {
+            return res.status(error.code || 500).json({
+                success: false,
+                error: {
+                    message: error.message,
+                    code: error.code,
+                }
+            });
+        }
     }
 }

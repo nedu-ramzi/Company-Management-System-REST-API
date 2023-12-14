@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { UserController } from "../controller/user.controller";
 import { authMiddleware, adminAuth } from '../middleware/auth.middleware';
-import { userValidationMiddleware } from '../middleware/user.validation';
 import { upload , isFile} from '../middleware/fileUpload.middleware';
 
 
@@ -18,4 +17,6 @@ export default (router: Router) => {
     router.delete('/user/:id', authMiddleware, adminAuth, userController.deleteAuser);
     //upload profile pic
     router.patch('/user/profile/:id', upload.single('profileImage'), isFile, userController.uploadProfile);
+    //delete a profile pic
+    router.delete('/user/profile/:id', userController.deleteProfilePic);
 }
