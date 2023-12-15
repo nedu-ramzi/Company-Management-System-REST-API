@@ -5,11 +5,11 @@ const purchasedItemController = new PurchasedItemController();
 
 export default (router: Router) => {
     //Register a purchase
-    // router.post('/purchased', purchasedItemController.registerPurchase);
+    router.post('/purchased', purchasedItemController.registerPurchase);
     //get all Purchase
     router.get('/purchased', purchasedItemController.getAllPurchase)
     //get a Purchase
-
+    router.get('/purchased/:id', purchasedItemController.getApurchase)
     // update a purchase
 
     //delete a purchase

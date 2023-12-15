@@ -1,7 +1,7 @@
 import mongoose, { Schema, model } from "mongoose";
 const purchasedItemSchema = new Schema({
-    purchasedItem: [{
-        type: mongoose.Schema.ObjectId,
+    inventory: [{
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Inventory'
     }],
     totalPrice: {
@@ -9,12 +9,12 @@ const purchasedItemSchema = new Schema({
         required: true
     },
     attendant: {
-        type: mongoose.Schema.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
     customer: {
-        type: mongoose.Schema.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Customer',
         required: true
     },
