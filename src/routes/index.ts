@@ -4,8 +4,8 @@ import customer from './customer';
 import inventory from './inventory';
 import users from './users';
 import auth from './auth';
-import sales from './sales';
-import purchasedItem from './purchasedItem'
+
+import purchasedItem from './sales'
 
 const router = Router();
 
@@ -17,7 +17,6 @@ export default (): Router => {
     users(router);
 
     purchasedItem(router);
-    sales(router);
 
     return router
 }

@@ -1,12 +1,26 @@
 import mongoose, { Schema, model } from "mongoose";
-const salesSchema = new Schema({
-    purchased: [{
-        type: mongoose.Schema.ObjectId,
-        ref: 'Purchased'
+const salesItemSchema = new Schema({
+    inventory: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Inventory'
     }],
-    sumTotal: {
+    totalPrice: {
         type: Number,
-        require: true
+        required: true
+    },
+    attendant: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    customer: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Customer',
+        required: true
+    },
+    purchasedQuantity: {
+        type: Number,
+        default: 0
     },
 }, { timestamps: true });
-export const Sales = model('Sales', salesSchema);
+export const Sales = model('Sales', salesItemSchema);
