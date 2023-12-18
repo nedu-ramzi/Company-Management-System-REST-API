@@ -5,10 +5,15 @@ import { authMiddleware, adminAuth } from '../middleware/auth.middleware';
 const salesController = new SalesController();
 
 export default (router: Router) => {
-    //Register a purchase
+    //Register a sale
     router.post('/sales', authMiddleware, salesController.registerSales);
-    //get all Purchase
+    //get all sales
     router.get('/sales', authMiddleware, salesController.getAllSales);
-    //get a Purchase
+    
+    //get total amount of sales
+    router.get('/sales/totalsales', authMiddleware, adminAuth, salesController.getTotalAmount);
+    //get sales count/ number of sales
+    router.get('/sales/salescount', authMiddleware, adminAuth, salesController.getSalesCount);
+    //get a sale
     router.get('/sales/:id', authMiddleware, salesController.getAsales);
 }

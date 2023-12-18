@@ -95,5 +95,67 @@ export class SalesController {
         }
     }
 
-    //get all 
+    //get total amount of sales
+    async getTotalAmount(req: Request, res: Response) {
+        try {
+            const totalSales = await Sales.aggregate([
+                {
+                    $group: {
+                        _id: null,
+                        totalsales: {
+                            $sum: '$totalPrice'
+                        }
+                    }
+                }
+            ]);
+
+            if (!totalSales || totalSales.length === 0) {
+                return res.status(400).json({
+                    success: false,
+                    error: {
+                        message: 'Total sales could not be generated'
+                    }
+                });
+            }
+
+            return res.status(200).json({
+                success: true,
+                message: 'Total Amount Fetched',
+                data: {
+                    totalsales: totalSales.pop().totalsales.toString()
+                }
+            });
+        } catch (error) {
+            return res.status(500).json({
+                success: false,
+                error: {
+                    message: error.message,
+                    code: 'INTERNAL_SERVER_ERROR'
+                }
+            });
+        }
+    }
+
+    // sales count
+    async getSalesCount(req: Request, res: Response) {
+        try {
+            const salesCount = await Sales.countDocuments();
+            return res.status(200).json({
+                success: true,
+                message: 'Sales Count Fetched',
+                data: {
+                    salesCount
+                }
+            });
+        } catch (error) {
+            return res.status(400).json({
+                success: false,
+                error: {
+                    message: 'Error fetching sales count',
+                    details: error.message
+                }
+            });
+        }
+
+    }
 }
