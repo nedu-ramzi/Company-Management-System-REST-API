@@ -7,7 +7,12 @@ interface PurchaseRequest {
     inventory: string,
     purchasedQuantity: number,
     attendant: string,
-    customer: string
+    customer: string,
+
+    vat: number,
+    discount: number,
+    tenderedAmount: number,
+    payType: 'Cash'|'Transfer'|'POS'
 }
 export class SalesController {
     //Register a purchase
@@ -20,9 +25,12 @@ export class SalesController {
             }
             const totalPrice = inventoryItems.reduce((total, item) => {
                 const quantity = inputFields.purchasedQuantity || 0;
-                return total + item.price * quantity;
+                const vat = inputFields.vat || 0;
+                const discount = inputFields.discount || 0;
+                return total + item.price * quantity - vat - discount;
             }, 0);
-            const sales = await Sales.create({ ...inputFields, totalPrice });
+            const change = inputFields.tenderedAmount - totalPrice;
+            const sales = await Sales.create({ ...inputFields, totalPrice, change });
             return res.status(201).json({
                 success: true,
                 message: "sales captured successfully",
@@ -40,7 +48,6 @@ export class SalesController {
             });
         }
     }
-
 
     //get all Purchase
     async getAllSales(req: Request, res: Response) {
@@ -68,7 +75,7 @@ export class SalesController {
         }
     }
 
-    // get a Purchase
+    // get a Purchase by id
     async getAsales(req: Request, res: Response) {
         try {
             const id = req.params.id;
@@ -158,4 +165,5 @@ export class SalesController {
         }
 
     }
+
 }

@@ -9,11 +9,12 @@ export default (router: Router) => {
     router.post('/sales', authMiddleware, salesController.registerSales);
     //get all sales
     router.get('/sales', authMiddleware, salesController.getAllSales);
-    
     //get total amount of sales
     router.get('/sales/totalsales', authMiddleware, adminAuth, salesController.getTotalAmount);
     //get sales count/ number of sales
     router.get('/sales/salescount', authMiddleware, adminAuth, salesController.getSalesCount);
+
+    
     //get a sale
     router.get('/sales/:id', authMiddleware, salesController.getAsales);
 }
