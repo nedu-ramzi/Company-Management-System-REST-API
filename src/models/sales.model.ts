@@ -1,9 +1,9 @@
 import mongoose, { Schema, model } from "mongoose";
 const salesItemSchema = new Schema({
-    company:{
+    company: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Company',
-        required: true  
+        required: true
     },
     inventory: [{
         type: mongoose.Schema.Types.ObjectId,
@@ -11,8 +11,9 @@ const salesItemSchema = new Schema({
         required: true
     }],
     purchasedQuantity: {
-        type: Number,
-        default: 0
+        type: Map,
+        of: Number,
+        default: {},
     },
     totalPrice: {
         type: Number,

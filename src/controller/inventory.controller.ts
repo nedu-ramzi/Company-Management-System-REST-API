@@ -3,7 +3,7 @@ import { Inventory } from "../models/inventory.model";
 
 interface reqBody {
     productName: string,
-    quantity: string,
+    quantity: number,
     price: number,
     description: string
 }

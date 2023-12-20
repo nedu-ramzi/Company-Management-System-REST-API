@@ -17,7 +17,7 @@ export class ReceiptController {
                 { path: "customer", model: "Customer", select: 'name phone' },
             ]);
             if (!receipt) {
-                throw new ApplicationError('Sales not found', 400);
+                throw new ApplicationError('Sales not found', 404);
             }
             return res.status(200).json({
                 "success": true,
@@ -36,5 +36,40 @@ export class ReceiptController {
                 }
             });
         }
+    }
+
+    //get receipt by receipt number
+    async getByReceiptNumber(req: Request, res: Response) {
+        try {
+            const { receiptNumber } = req.body;
+            const receipt = await Receipt.findOne({ receiptNumber }).populate({
+                path: "salesId",
+                model: "Sales",
+                populate: [
+                    { path: "inventory", model: "Inventory", select: 'productName price description' },
+                    { path: "attendant", model: "User", select: 'name phone role staffId' },
+                    { path: "customer", model: "Customer", select: 'name phone' },
+                ]
+            });
+            if (!receipt) {
+                throw new ApplicationError('Not a receipt number', 400);
+            }
+            return res.status(200).json({
+                "success": true,
+                "message": "Receipt fetched with receipt number",
+                "data": {
+                    receipt
+                }
+            });
+        } catch (error) {
+            return res.status(500).json({
+                success: false,
+                error: {
+                    message: 'Error fetchig receipt by Receipt number',
+                    details: error.message
+                }
+            });
+        }
+
     }
 }
