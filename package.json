@@ -9,6 +9,9 @@
     "start": "node ./dist/app.js",
     "build": "npm i && tsc -p ."
   },
+  "engines": {
+    "node": ">=20.7.0"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

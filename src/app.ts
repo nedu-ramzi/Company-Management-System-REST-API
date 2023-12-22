@@ -23,6 +23,7 @@ app.use(cors({
 }));
 
 //routes
+app.get('/', (req:express.Request, res: express.Response)=>{res.send("Company Management System REST-API live")});
  app.use('/api/v1', router());
 
 //database
