@@ -9,7 +9,7 @@ export class ReceiptController {
     async generateReceipt(req: Request, res: Response) {
         try {
             const salesId = req.params.id;
-            const receiptNumber = genRandomString();
+            const receiptNumber = genRandomString(10);
             const createReceipt = await Receipt.create({ receiptNumber, salesId });
             const receipt = await Sales.findById(salesId).populate([
                 { path: "inventory", model: "Inventory", select: 'productName price description' },

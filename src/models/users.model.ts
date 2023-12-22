@@ -13,17 +13,17 @@ const userSchema = new Schema({
         max: 50,
         min: 5
     },
-    password:{
+    password: {
         type: String,
         max: 10,
-        min:5,
+        min: 5,
         required: true
     },
     address: {
         type: String,
         required: false,
-        max: 30,
-        min: 5
+        maxlength: 50,
+        minlength: 5
     },
     phone: {
         type: Array,
@@ -34,14 +34,14 @@ const userSchema = new Schema({
         enum: ['Admin', 'Staff'],
         default: 'Admin',
     },
-    staffId:{
+    staffId: {
         type: String,
         required: true
     },
-    profileImage:{
-        type:String,
+    profileImage: {
+        type: String,
         required: false,
-        max:50
+        max: 50
     }
 }, { timestamps: true });
 

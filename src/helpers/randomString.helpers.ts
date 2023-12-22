@@ -1,6 +1,5 @@
-export const genRandomString = ()=>{
-    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXTZ0123456789";
-    const lenString = 7;
+export const genRandomString = (lenString: number)=>{
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXTZ0123456789abcdefghijklmnopqrstuvwxyz";
     let randomString = ''; 
 
     for (let i = 0; i < lenString; i++) {

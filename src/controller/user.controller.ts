@@ -77,7 +77,7 @@ export class UserController {
             }
             const salt = await bcryptjs.genSalt(10);
             const hashedPassword = await bcryptjs.hash(inputFields.password, salt);
-            const user = await User.findByIdAndUpdate(id, { ...inputFields, password: hashedPassword, staffId: genRandomString() });
+            const user = await User.findByIdAndUpdate(id, { ...inputFields, password: hashedPassword, staffId: genRandomString(7) });
             return res.status(200).json({
                 "success": true,
                 "message": "User Updated Successfully",

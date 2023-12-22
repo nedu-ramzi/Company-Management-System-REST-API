@@ -35,7 +35,7 @@ export class SalesController {
             }, 0);
             const change = inputFields.tenderedAmount - totalPrice;
             if (inputFields.tenderedAmount < totalPrice) {
-                throw new ApplicationError('Tendered Amount is less than the Total price', 422);
+                throw new ApplicationError(`Tendered Amount is less than the Total price. Total price N${totalPrice}`, 422);
             }
             const sales = (await Sales.create({ ...inputFields, totalPrice, change, purchasedQuantity: inputFields.purchasedQuantity }));
 
@@ -45,7 +45,7 @@ export class SalesController {
                 _id: item._id,
                 remainingQuantity: item.quantity - inputFields.purchasedQuantity[item._id.toString()],
             }));
-            
+
             return res.status(201).json({
                 success: true,
                 message: "sales captured successfully",
@@ -72,6 +72,7 @@ export class SalesController {
                 { path: "inventory", model: "Inventory", select: 'productName price description' },
                 { path: "attendant", model: "User", select: 'name phone role staffId' },
                 { path: "customer", model: "Customer", select: 'name phone' },
+                { path: "purchasedQuantity", select: 'productName' },
             ]);
             return res.status(200).json({
                 success: true,
