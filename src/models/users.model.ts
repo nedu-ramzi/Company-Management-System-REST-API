@@ -3,20 +3,20 @@ const userSchema = new Schema({
     name: {
         type: String,
         required: true,
-        max: 30,
-        min: 5
+        maxlength: 30,
+        minlength: 5
     },
     email: {
         type: String,
         unique: true,
         required: false,
-        max: 50,
-        min: 5
+        maxlength: 50,
+        minlength: 5
     },
     password: {
         type: String,
-        max: 10,
-        min: 5,
+        maxlength: 10,
+        minlength: 5,
         required: true
     },
     address: {
@@ -41,7 +41,7 @@ const userSchema = new Schema({
     profileImage: {
         type: String,
         required: false,
-        max: 50
+        maxlength: 50
     }
 }, { timestamps: true });
 

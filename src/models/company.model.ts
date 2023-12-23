@@ -3,14 +3,14 @@ const companySchema = new Schema({
     name: {
         type: String,
         required: true,
-        max: 30,
-        min: 5
+        maxlength: 30,
+        minlength: 5
     },
     email: {
         type: String,
         required: false,
-        max: 30,
-        min: 5
+        maxlength: 30,
+        minlength: 5
     },
     address: {
         type: String,
@@ -26,8 +26,8 @@ const companySchema = new Schema({
     regNo: {
         type: String,
         required: false,
-        max: 50,
-        min: 2
+        maxlength: 50,
+        minlength: 2
     }
 }, { timestamps: true });
 

@@ -2,7 +2,7 @@ import { Request, Response, application } from "express";
 import { Company } from "../models/company.model";
 import { ApplicationError } from "../helpers/errors.helpers";
 
-interface reqBody{
+interface reqBody {
     name: string,
     email: string,
     address: string,
@@ -13,8 +13,8 @@ export class CompanyController {
     //Create a company
     async createCompany(req: Request, res: Response) {
         try {
-            const inputFields:reqBody  = req.body;
-            const emailExits = await Company.findOne({email: inputFields.email});
+            const inputFields: reqBody = req.body;
+            const emailExits = await Company.findOne({ email: inputFields.email });
             if (emailExits) {
                 throw new ApplicationError('Email Already Exist', 422);
             }
@@ -66,7 +66,7 @@ export class CompanyController {
     //Update a company by id
     async updateCompany(req: Request, res: Response) {
         try {
-            const inputFields:reqBody = req.body;
+            const inputFields: reqBody = req.body;
             const id = req.params.id;
             const company = await Company.findByIdAndUpdate(id, inputFields, { new: true });
             if (!company) {

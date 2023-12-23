@@ -1,10 +1,10 @@
 import { Request } from 'express';
-import Joi, { Schema, ValidationError } from 'joi';
+import Joi, { ValidationError } from 'joi';
 
-export const schemaErrors = function (payload: Request, schema: Schema): Record<string, { message: string }> | null {
-    const { error } = schema.validate(payload, { abortEarly: false }) as { error?: ValidationError };
+export const schemaErrors = function (payload: Request, schema: Joi.ObjectSchema<any>): ValidationError | null {
+    const { error } = schema.validate(payload, { abortEarly: false });
 
-    let errors: Record<string, { message: string }> = {};
+    let errors:any = {};
 
     if (error) {
         error.details.forEach((item) => {

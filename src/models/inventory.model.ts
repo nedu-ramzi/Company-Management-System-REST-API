@@ -16,7 +16,7 @@ const inventorySchema = new Schema({
     description: {
         type: String,
         require: false,
-        max: 100
+        maxlength: 100
     }
 }, { timestamps: true });
 

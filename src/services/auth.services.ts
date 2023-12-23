@@ -27,11 +27,11 @@ export class AuthController {
                 throw new ApplicationError('User with this email already exist', 422);
             }
             if (inputFields.password !== inputFields.confirmPassword) {
-                throw new ApplicationError('password do not match',422)
+                throw new ApplicationError('password do not match', 422);
             }
             const salt = await bcryptjs.genSalt(10);
             const hashedPassword = await bcryptjs.hash(inputFields.password, salt);
-            const user = await User.create({ ...inputFields, password:hashedPassword ,staffId: genRandomString(7) });
+            const user = await User.create({ ...inputFields, password: hashedPassword, staffId: genRandomString(7) });
 
             return res.status(201).json({
                 "success": true,
@@ -52,20 +52,22 @@ export class AuthController {
     }
 
     //login User
-    async loginUser(req: Request, res:Response){
+    async loginUser(req: Request, res: Response) {
         try {
             const { email, password } = req.body;
             const user = await User.findOne({ email });
             if (!user) throw new ApplicationError('User acount not found', 404);
             const comparePassword = await bcryptjs.compare(password, user.password);
-
+            if (!comparePassword) {
+                throw new ApplicationError('Invalid email or password', 401);
+            }
             //generate token 
             const payload = {
                 id: user.id,
                 email: user.email,
                 password: user.password,
                 admin: user.role,
-                staffId:user.staffId
+                staffId: user.staffId
             }
             const token = await issueToken(payload);
 
